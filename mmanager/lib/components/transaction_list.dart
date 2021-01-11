@@ -15,7 +15,7 @@ class TransactionList extends StatelessWidget
     {
         
         return Container(
-            height: 300, 
+            height: MediaQuery.of(context).size.height * 0.6, 
             child: ListView.builder(
                 itemCount: transactions.length,
                 itemBuilder: (ctx, index)
