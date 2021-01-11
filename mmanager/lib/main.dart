@@ -32,17 +32,19 @@ class MyHomePage extends StatelessWidget
                 title: Text('Despesas'),
             ), // AppBar
             
-            body: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                    Card(
-                        color: Colors.blue,
-                        child: Text('Gráficos'),
-                        elevation: 5,
-                    ), // Card
-                    TransactionUser()
-                ], // <Widget>[]
-            ), // Column
+            body: SingleChildScrollView(
+                child :Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                        Card(
+                            color: Colors.blue,
+                            child: Text('Gráficos'),
+                            elevation: 5,
+                        ), // Card
+                        TransactionUser()
+                    ], // <Widget>[]
+                ), // Column
+            ), // SingleChildScrollView
         );// Scaffold
     }
 }

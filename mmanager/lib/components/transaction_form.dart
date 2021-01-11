@@ -6,6 +6,11 @@ class TransactionForm extends StatelessWidget
     
     final titleController = TextEditingController();
     final valueController = TextEditingController();
+
+    // Form values to "father" widget.
+    final void Function(String, double) onSubmit;
+
+    TransactionForm(this.onSubmit);
     
     @override
     Widget build(BuildContext context)
@@ -36,7 +41,12 @@ class TransactionForm extends StatelessWidget
                                 FlatButton(
                                     child: Text('Nova Transaćão'),
                                     textColor: Colors.purple,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                        final title = titleController.text;
+                                        final value = double.tryParse(
+                                                valueController.text) ?? 0.0;
+                                        onSubmit(title, value);
+                                    },
                                 ), // FlatButton
                             ] // <Widget>
                         ), // Row
