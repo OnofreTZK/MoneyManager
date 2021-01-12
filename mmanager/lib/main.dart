@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mmanager/components/transaction_user.dart';
+import 'package:mmanager/components/transaction_list.dart';
+import 'package:mmanager/components/transaction_form.dart';
+import 'dart:math';
+import 'package:mmanager/models/transaction.dart';
 
 class ExpensesApp extends StatelessWidget
 {
@@ -14,13 +17,55 @@ class ExpensesApp extends StatelessWidget
 }
 
 
-class MyHomePage extends StatelessWidget
+class _MyHomePageState extends State<MyHomePage>
 {
 
+    final _transactions = [
+        Transaction(
+                id: 't1',
+                title: 'Escova',
+                value: 400.00,
+                date: DateTime.now(),
+        ), // Transaction
+        Transaction(
+                id: 't2',
+                title: 'Corte e Escova',
+                value: 600.00,
+                date: DateTime.now(),
+        ), // Transaction
+    ];
 
 
-    //String title;
-    //String value;
+    _addTransaction( String title, double value )
+    {
+        final newTransaction = Transaction(
+                id: Random().nextDouble().toString(),
+                title: title,
+                value: value,
+                date: DateTime.now(),
+        ); // Transaction
+
+        setState( () {
+            _transactions.add(newTransaction);
+        });
+
+
+        // Inherited widget comms
+        Navigator.of(context).pop();
+
+    }
+    
+
+    _openTransactionFormModal(BuildContext context)
+    {
+        showModalBottomSheet(
+            context: context,
+            builder: (_)
+            {
+                return TransactionForm(_addTransaction);
+            }
+        );
+    }
 
 
     @override
@@ -30,6 +75,12 @@ class MyHomePage extends StatelessWidget
             
             appBar: AppBar(
                 title: Text('Despesas'),
+                actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () => _openTransactionFormModal(context),
+                    ) // IconButton
+                ] // <Widget>
             ), // AppBar
             
             body: SingleChildScrollView(
@@ -41,12 +92,26 @@ class MyHomePage extends StatelessWidget
                             child: Text('Gráficos'),
                             elevation: 5,
                         ), // Card
-                        TransactionUser()
+                        TransactionList(_transactions),
                     ], // <Widget>[]
                 ), // Column
             ), // SingleChildScrollView
-        );// Scaffold
+            floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () => _openTransactionFormModal(context),
+            ), // FloatingActionButton
+           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        ); // Scaffold
     }
+}
+
+
+class MyHomePage extends StatefulWidget
+{
+    
+    @override
+    _MyHomePageState createState() => _MyHomePageState();
+
 }
 
 
