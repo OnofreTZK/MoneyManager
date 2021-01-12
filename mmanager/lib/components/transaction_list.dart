@@ -16,7 +16,27 @@ class TransactionList extends StatelessWidget
         
         return Container(
             height: MediaQuery.of(context).size.height * 0.6, 
-            child: ListView.builder(
+            child: transactions.isEmpty ? Column(
+                children: <Widget>[
+                    Text(
+                        'Nenhuma Transaćão Cadastrada.',
+                        style: TextStyle(
+                                fontFamily: 'MerriweatherSans',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                        ), // TextStyle
+                    ), // Text
+                    SizedBox(height: 50),
+                    Container(
+                        height: 200,
+                        child: Image.asset(
+                            'assets/images/waiting.png',
+                            fit: BoxFit.cover,
+                            ), // Image
+                    ), // Container
+                ], // <widget>
+            ) : // Column
+            ListView.builder(
                 itemCount: transactions.length,
                 itemBuilder: (ctx, index)
                 {

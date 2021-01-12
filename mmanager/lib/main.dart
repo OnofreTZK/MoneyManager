@@ -11,7 +11,21 @@ class ExpensesApp extends StatelessWidget
     Widget build(BuildContext context)
     {
         return MaterialApp(
-            home: MyHomePage()
+            home: MyHomePage(),
+            theme: ThemeData(
+                primarySwatch: Colors.pink,
+                accentColor: Colors.pinkAccent[400],
+                fontFamily: "Quicksand",
+                appBarTheme: AppBarTheme(
+                    textTheme: ThemeData.light().textTheme.copyWith(
+                        title:TextStyle(
+                            fontFamily: 'MerriweatherSans',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                        ), // TextStyle
+                    ), // copyWith
+                ), // AppBartTheme
+            ), // ThemeData 
         ); // MaterialApp
     }
 }
@@ -20,19 +34,7 @@ class ExpensesApp extends StatelessWidget
 class _MyHomePageState extends State<MyHomePage>
 {
 
-    final _transactions = [
-        Transaction(
-                id: 't1',
-                title: 'Escova',
-                value: 400.00,
-                date: DateTime.now(),
-        ), // Transaction
-        Transaction(
-                id: 't2',
-                title: 'Corte e Escova',
-                value: 600.00,
-                date: DateTime.now(),
-        ), // Transaction
+    final List<Transaction> _transactions = [
     ];
 
 
