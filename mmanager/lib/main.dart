@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mmanager/components/transaction_list.dart';
 import 'package:mmanager/components/transaction_form.dart';
+import 'package:mmanager/components/chart.dart';
 import 'dart:math';
 import 'package:mmanager/models/transaction.dart';
 
@@ -36,6 +37,16 @@ class _MyHomePageState extends State<MyHomePage>
 
     final List<Transaction> _transactions = [
     ];
+
+
+    List<Transaction> get _recentTransactions
+    {
+        // return values that are in a week time.
+        return _transactions.where((tr) 
+        {
+            return tr.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+        }).toList();
+    }
 
 
     _addTransaction( String title, double value )
@@ -89,11 +100,7 @@ class _MyHomePageState extends State<MyHomePage>
                 child :Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                        Card(
-                            color: Colors.blue,
-                            child: Text('Gráficos'),
-                            elevation: 5,
-                        ), // Card
+                        Chart(_recentTransactions),
                         TransactionList(_transactions),
                     ], // <Widget>[]
                 ), // Column
