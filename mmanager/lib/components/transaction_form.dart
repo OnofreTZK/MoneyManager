@@ -5,14 +5,14 @@ import 'package:intl/intl.dart';
 class _TransactionFormState extends State<TransactionForm>
 {
     
-    final titleController = TextEditingController();
-    final valueController = TextEditingController();
-
+    final _titleController = TextEditingController();
+    final _valueController = TextEditingController();
+    DateTime _selectedDate;
 
     _submitForm()
     {
-        final title = titleController.text;
-        final value = double.tryParse(valueController.text) ?? 0.0;
+        final title = _titleController.text;
+        final value = double.tryParse(_valueController.text) ?? 0.0;
 
         if( title.isEmpty || value <= 0 )
         {
@@ -22,6 +22,28 @@ class _TransactionFormState extends State<TransactionForm>
         // Inherited attribute --> widget
         widget.onSubmit(title, value);
         
+    }
+
+
+    _showDatePicker() 
+    {
+        // Async function --> will return Future<DateTime>
+        showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2015),
+            lastDate: DateTime.now(),
+        ).then((pickedDate){
+            if( pickedDate == null )
+            {
+                return;
+            }
+
+            setState(() {
+                _selectedDate = pickedDate;
+            });
+        
+        });
     }
     
     @override
@@ -35,14 +57,14 @@ class _TransactionFormState extends State<TransactionForm>
                 child: Column(
                     children: <Widget>[
                         TextField(
-                            controller: titleController,
+                            controller: _titleController,
                             onSubmitted: (_) => _submitForm(),
                             decoration: InputDecoration(
                                 labelText: 'Título'
                             ), // InputDecoration        
                         ), // TextField
                         TextField(
-                            controller: valueController,
+                            controller: _valueController,
                             //keyboardType: TextInputType.number, -> Only Android
                             keyboardType: TextInputType.numberWithOptions(
                                     decimal: true), // -> Android and IOS
@@ -51,17 +73,47 @@ class _TransactionFormState extends State<TransactionForm>
                                 labelText: 'Valor (R\$)',
                             ), // InputDecoration
                         ), // TextField
+                        Container(
+                            height: 70,
+                            child: Row(
+                                children: <Widget>[
+                                    Expanded(
+                                        child: Text(
+                                        _selectedDate == null ? 
+                                        'Nenhuma data selecionada.'
+                                        : ' Data Selecionada: ${DateFormat('d/M/y').format(_selectedDate)}'
+                                        ), // Text
+                                    ), // Expanded
+                                    FlatButton(
+                                        textColor: Theme.of(context).primaryColor,
+                                        child: Text(
+                                            'Selecione uma data.',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                            ), // TextStyle
+                                        ), // Text
+                                        onPressed: _showDatePicker,
+                                    ) // FlatButton
+                                ] // <Widget
+                            ), // Row
+                        ), // Container
                         Row(
                             mainAxisAlignment: MainAxisAlignment
                             .end,
                             children: <Widget>[
-                                FlatButton(
-                                    child: Text('Nova Transaćão'),
-                                    textColor: Colors.purple,
+                                RaisedButton(
+                                    child: Text(
+                                        'Nova Transacão',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                        ), // TextStyle
+                                    ), // Text
+                                    color: Colors.pinkAccent,
+                                    textColor: Colors.white,
                                     onPressed: () {
                                         _submitForm();
                                     },
-                                ), // FlatButton
+                                ), // RaisedButton
                             ] // <Widget>
                         ), // Row
                     ] // <Widget>

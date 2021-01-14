@@ -45,7 +45,9 @@ class Chart extends StatelessWidget
                 'value': totalSum, 
             };
 
-        }); //List.generate
+            // Reversed method will return a iterable with al elements reversed.
+            // toList() to cast to a list again.
+        }).reversed.toList(); //List.generate
     }
     
     
