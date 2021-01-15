@@ -7,8 +7,10 @@ class TransactionList extends StatelessWidget
 {
     final List<Transaction> transactions;
 
+    final void Function(String) onRemove;
 
-    TransactionList(this.transactions);
+
+    TransactionList(this.transactions, this.onRemove);
 
     @override
     Widget build(BuildContext context)
@@ -67,6 +69,11 @@ class TransactionList extends StatelessWidget
                             subtitle: Text(
                                 DateFormat('d MMM y').format(tr.date),
                             ), // Text
+                            trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                color: Colors.redAccent,
+                                onPressed: () => onRemove(tr.id),
+                            ) // IconButton
                         ), // ListTile
                     ); // Card
                 },

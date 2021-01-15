@@ -14,13 +14,13 @@ class _TransactionFormState extends State<TransactionForm>
         final title = _titleController.text;
         final value = double.tryParse(_valueController.text) ?? 0.0;
 
-        if( title.isEmpty || value <= 0 )
+        if( title.isEmpty || value <= 0 || _selectedDate == null )
         {
             return;
         }
 
         // Inherited attribute --> widget
-        widget.onSubmit(title, value);
+        widget.onSubmit(title, value, _selectedDate);
         
     }
 
@@ -129,7 +129,7 @@ class _TransactionFormState extends State<TransactionForm>
 class TransactionForm extends StatefulWidget
 {
     // Form values to "father" widget.
-    final void Function(String, double) onSubmit;
+    final void Function(String, double, DateTime) onSubmit;
 
     TransactionForm(this.onSubmit);
 

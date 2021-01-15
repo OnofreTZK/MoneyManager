@@ -49,13 +49,13 @@ class _MyHomePageState extends State<MyHomePage>
     }
 
 
-    _addTransaction( String title, double value )
+    _addTransaction( String title, double value, DateTime date)
     {
         final newTransaction = Transaction(
                 id: Random().nextDouble().toString(),
                 title: title,
                 value: value,
-                date: DateTime.now(),
+                date: date,
         ); // Transaction
 
         setState( () {
@@ -66,6 +66,16 @@ class _MyHomePageState extends State<MyHomePage>
         // Inherited widget comms
         Navigator.of(context).pop();
 
+    }
+
+
+    _deleteTransaction( String id )
+    {
+        setState( () 
+        {
+            _transactions.removeWhere( (tr) => tr.id == id );
+        });
+          
     }
     
 
@@ -101,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage>
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                         Chart(_recentTransactions),
-                        TransactionList(_transactions),
+                        TransactionList(_transactions, _deleteTransaction),
                     ], // <Widget>[]
                 ), // Column
             ), // SingleChildScrollView
