@@ -49,77 +49,83 @@ class _TransactionFormState extends State<TransactionForm>
     @override
     Widget build(BuildContext context)
     {
-            
-        return Card(
-            elevation: 5,
-            child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                    children: <Widget>[
-                        TextField(
-                            controller: _titleController,
-                            onSubmitted: (_) => _submitForm(),
-                            decoration: InputDecoration(
-                                labelText: 'Título'
-                            ), // InputDecoration        
-                        ), // TextField
-                        TextField(
-                            controller: _valueController,
-                            //keyboardType: TextInputType.number, -> Only Android
-                            keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true), // -> Android and IOS
-                            onSubmitted: (_) => _submitForm(),
-                            decoration: InputDecoration(
-                                labelText: 'Valor (R\$)',
-                            ), // InputDecoration
-                        ), // TextField
-                        Container(
-                            height: 70,
-                            child: Row(
+        return SingleChildScrollView(
+            child: Card(
+                elevation: 5,
+                child: Padding(
+                    padding: EdgeInsets.only(
+                        top: 10,
+                        right: 10,
+                        left: 10,
+                        bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+                    ), // EdgeInsets.only
+                    child: Column(
+                        children: <Widget>[
+                            TextField(
+                                controller: _titleController,
+                                onSubmitted: (_) => _submitForm(),
+                                decoration: InputDecoration(
+                                    labelText: 'Título'
+                                ), // InputDecoration        
+                            ), // TextField
+                            TextField(
+                                controller: _valueController,
+                                //keyboardType: TextInputType.number, -> Only Android
+                                keyboardType: TextInputType.numberWithOptions(
+                                        decimal: true), // -> Android and IOS
+                                onSubmitted: (_) => _submitForm(),
+                                decoration: InputDecoration(
+                                    labelText: 'Valor (R\$)',
+                                ), // InputDecoration
+                            ), // TextField
+                            Container(
+                                height: 70,
+                                child: Row(
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Text(
+                                            _selectedDate == null ? 
+                                            'Nenhuma data selecionada.'
+                                            : ' Data Selecionada: ${DateFormat('d/M/y').format(_selectedDate)}'
+                                            ), // Text
+                                        ), // Expanded
+                                        FlatButton(
+                                            textColor: Theme.of(context).primaryColor,
+                                            child: Text(
+                                                'Selecione uma data.',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                ), // TextStyle
+                                            ), // Text
+                                            onPressed: _showDatePicker,
+                                        ) // FlatButton
+                                    ] // <Widget
+                                ), // Row
+                            ), // Container
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                .end,
                                 children: <Widget>[
-                                    Expanded(
+                                    RaisedButton(
                                         child: Text(
-                                        _selectedDate == null ? 
-                                        'Nenhuma data selecionada.'
-                                        : ' Data Selecionada: ${DateFormat('d/M/y').format(_selectedDate)}'
-                                        ), // Text
-                                    ), // Expanded
-                                    FlatButton(
-                                        textColor: Theme.of(context).primaryColor,
-                                        child: Text(
-                                            'Selecione uma data.',
+                                            'Nova Transacão',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                             ), // TextStyle
                                         ), // Text
-                                        onPressed: _showDatePicker,
-                                    ) // FlatButton
-                                ] // <Widget
+                                        color: Colors.pinkAccent,
+                                        textColor: Colors.white,
+                                        onPressed: () {
+                                            _submitForm();
+                                        },
+                                    ), // RaisedButton
+                                ] // <Widget>
                             ), // Row
-                        ), // Container
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment
-                            .end,
-                            children: <Widget>[
-                                RaisedButton(
-                                    child: Text(
-                                        'Nova Transacão',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                        ), // TextStyle
-                                    ), // Text
-                                    color: Colors.pinkAccent,
-                                    textColor: Colors.white,
-                                    onPressed: () {
-                                        _submitForm();
-                                    },
-                                ), // RaisedButton
-                            ] // <Widget>
-                        ), // Row
-                    ] // <Widget>
-                ), // Column
-            ), // Container
-        ); // Card
+                        ] // <Widget>
+                    ), // Column
+                ), // Container
+            ), // Card
+        ); // SingleChildScrollView
     }
 
 }

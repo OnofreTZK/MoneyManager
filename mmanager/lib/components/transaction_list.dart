@@ -17,27 +17,34 @@ class TransactionList extends StatelessWidget
     {
         
         return Container(
-            child: transactions.isEmpty ? Column(
-                children: <Widget>[
-                    Text(
-                        'Nenhuma Transaćão Cadastrada.',
-                        style: TextStyle(
-                                fontFamily: 'MerriweatherSans',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                        ), // TextStyle
-                    ), // Text
-                    SizedBox(height: 50),
-                    Container(
-                        height: 200,
-                        child: Image.asset(
-                            'assets/images/waiting.png',
-                            fit: BoxFit.cover,
-                            ), // Image
-                    ), // Container
-                ], // <widget>
-            ) : // Column
-            ListView.builder(
+            child: transactions.isEmpty 
+            ? LayoutBuilder(
+                builder: (ctx, constraints)
+                {
+                    return Column(
+                        children: <Widget>[
+                            SizedBox(height: 20),
+                            Text(
+                                'Nenhuma Transaćão Cadastrada.',
+                                style: TextStyle(
+                                        fontFamily: 'MerriweatherSans',
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                ), // TextStyle
+                            ), // Text
+                            SizedBox(height: 20),
+                            Container(
+                                height: constraints.maxHeight * 0.6,
+                                child: Image.asset(
+                                    'assets/images/waiting.png',
+                                    fit: BoxFit.cover,
+                                    ), // Image
+                            ), // Container
+                        ], // <widget>
+                    ); // Column
+                },
+            ) // LayoutBuilder
+            : ListView.builder(
                 itemCount: transactions.length,
                 itemBuilder: (ctx, index)
                 {
@@ -68,7 +75,14 @@ class TransactionList extends StatelessWidget
                             subtitle: Text(
                                 DateFormat('d MMM y').format(tr.date),
                             ), // Text
-                            trailing: IconButton(
+                            trailing: MediaQuery.of(context).size.width > 480
+                            ? FlatButton.icon(
+                                icon: Icon(Icons.delete),
+                                onPressed: () => onRemove(tr.id),
+                                label: Text('Excluir'),
+                                textColor: Colors.redAccent,
+                            ) // FlatButton 
+                            : IconButton(
                                 icon: Icon(Icons.delete),
                                 color: Colors.redAccent,
                                 onPressed: () => onRemove(tr.id),

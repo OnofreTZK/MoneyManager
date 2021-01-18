@@ -11,6 +11,7 @@ class ExpensesApp extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
+
         return MaterialApp(
             home: MyHomePage(),
             theme: ThemeData(
@@ -37,6 +38,9 @@ class _MyHomePageState extends State<MyHomePage>
 
     final List<Transaction> _transactions = [
     ];
+
+
+    bool _showChart = false;
 
 
     List<Transaction> get _recentTransactions
@@ -94,26 +98,41 @@ class _MyHomePageState extends State<MyHomePage>
     @override
     Widget build(BuildContext context)
     {
+        final mediaQuery = MediaQuery.of(context);
+
+        bool isLandscape = mediaQuery.orientation == 
+                Orientation.landscape;
         
         final appBar = AppBar(
             title: Text(
                 'Despesas',
                 style: TextStyle(
-                    fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+                    fontSize: 20 * mediaQuery.textScaleFactor,
                 ), // TextStyle
             ), // Text
             actions: <Widget>[
+                if(isLandscape)
+                    IconButton(
+                        icon: Icon(_showChart ? Icons.list : Icons.show_chart),
+                        onPressed: () 
+                        {
+                            setState( ()
+                            {
+                                _showChart = !_showChart;
+                            });   
+                        },
+                    ), // IconButton
                 IconButton(
                     icon: Icon(Icons.add),
                     onPressed: () => _openTransactionFormModal(context),
-                ) // IconButton
+                ), // IconButton
             ] // <Widget>
         ); // AppBar 
        
         // Available area without appbar. 
-        final availableHeight = MediaQuery.of(context).size.height -
+        final availableHeight = mediaQuery.size.height -
             appBar.preferredSize.height - 
-            MediaQuery.of(context).padding.top;
+            mediaQuery.padding.top;
 
         
         return Scaffold(
@@ -123,14 +142,33 @@ class _MyHomePageState extends State<MyHomePage>
                 child :Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                        Container(
-                            height: availableHeight * 0.3,
-                            child: Chart(_recentTransactions),
-                        ), // Container
-                        Container(
-                            height: availableHeight * 0.7,
-                            child: TransactionList(_transactions, _deleteTransaction),
-                        ), // Container
+                        //if(isLandscape)
+                            //Row(
+                            //    mainAxisAlignment: MainAxisAlignment.center,
+                            //    children: <Widget>[
+                            //        Text('Exibir Gráfico'), 
+                            //        Switch(
+                            //            value: _showChart, 
+                            //            onChanged: (value) {
+                            //                setState(() {
+                            //                    _showChart = value;
+                            //                });
+                            //            },
+                            //        ), // Switch
+                            //    ], // Widget
+                            //), // Row
+                        if(_showChart || !isLandscape) 
+                            Container(
+                                height: availableHeight * (isLandscape ? 0.65 
+                                        : 0.3),
+                                child: Chart(_recentTransactions),
+                            ), // Container
+                        if(!_showChart || !isLandscape)
+                            Container(
+                                height: availableHeight * (isLandscape ? 1.0
+                                        : 0.65),
+                                child: TransactionList(_transactions, _deleteTransaction),
+                            ), // Container
                     ], // <Widget>[]
                 ), // Column
             ), // SingleChildScrollView
