@@ -108,7 +108,7 @@ class _TransactionFormState extends State<TransactionForm>
                                 children: <Widget>[
                                     RaisedButton(
                                         child: Text(
-                                            'Nova Transacão',
+                                            'Nova Transação',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                             ), // TextStyle
