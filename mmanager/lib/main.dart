@@ -5,7 +5,6 @@ import 'package:mmanager/components/transaction_form.dart';
 import 'package:mmanager/components/chart.dart';
 import 'dart:math';
 import 'dart:io';
-import 'package:mmanager/components/adaptative_button.dart';
 import 'package:mmanager/models/transaction.dart';
 
 class ExpensesApp extends StatelessWidget
@@ -36,7 +35,7 @@ class ExpensesApp extends StatelessWidget
 }
 
 
-class _MyHomePageState extends State<MyHomePage>
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver
 {
 
     final List<Transaction> _transactions = [
@@ -44,6 +43,27 @@ class _MyHomePageState extends State<MyHomePage>
 
 
     bool _showChart = false;
+
+
+    @override
+    void initState()
+    {
+        super.initState();
+        WidgetsBinding.instance.addObserver(this);
+    }
+
+    @override 
+    void didChangeAppLifecycleState(AppLifecycleState state)
+    {
+        print(state);
+    }
+
+    @override
+    void dispose()
+    {
+        super.dispose();
+        WidgetsBinding.instance.removeObserver(this);
+    }
 
 
     List<Transaction> get _recentTransactions
@@ -101,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage>
     @override
     Widget build(BuildContext context)
     {
+
         final mediaQuery = MediaQuery.of(context);
 
         bool isLandscape = mediaQuery.orientation == Orientation.landscape;

@@ -9,6 +9,7 @@ class _TransactionFormState extends State<TransactionForm>
     final _valueController = TextEditingController();
     DateTime _selectedDate;
 
+
     _submitForm()
     {
         final title = _titleController.text;
@@ -45,7 +46,7 @@ class _TransactionFormState extends State<TransactionForm>
         
         });
     }
-    
+
     @override
     Widget build(BuildContext context)
     {
@@ -137,10 +138,16 @@ class TransactionForm extends StatefulWidget
     // Form values to "father" widget.
     final void Function(String, double, DateTime) onSubmit;
 
-    TransactionForm(this.onSubmit);
+    TransactionForm(this.onSubmit)
+    {
+        print('Constructor TransactionForm');
+    }
 
     @override
-    _TransactionFormState createState() =>  _TransactionFormState();
+    _TransactionFormState createState() 
+    { 
+        return _TransactionFormState();
+    }
 }
 
 
